@@ -177,6 +177,8 @@ INSERT INTO Employee VALUES (111111111, "John Dorian", "Doctor", "Male", "42 Foo
 INSERT INTO Employee VALUES (333333333, "Christopher Turk", "Trainee", "Male", "37 Snafu Drive", 260);
 INSERT INTO Employee VALUES (888888888, "Keith Dudemeister", "Doctor", "Female", "101 Omgbbq Street", 1260);
 INSERT INTO Employee VALUES (999999999, "Molly Clock", "Nurse", "Female", "1100 Foobaz Avenue", 900);
+INSERT INTO Employee VALUES (222222222, "Will Smith", "Doctor", "Male", "HollyWood", 1900);
+INSERT INTO Employee VALUES (555555555, "angelina jolie", "Doctor", "Female", "HollyWood", 1500);
 
 INSERT INTO E_Contact_Num VALUES(111111111, 6666-2314);
 INSERT INTO E_Contact_Num VALUES(111111111, 4632-1456);
@@ -196,9 +198,43 @@ INSERT INTO Dep_Location VALUES(3, "chicago");
 INSERT INTO Dep_Location VALUES(4, "washington dc");
 
 INSERT INTO Doctor VALUES(111111111, 2);
+INSERT INTO Doctor VALUES(222222222, 2);
+INSERT INTO Doctor VALUES(555555555, 1);
 
 INSERT INTO Nurse VALUES (999999999, 1, 12, "Good");
 
 INSERT INTO Receptionist VALUES(888888888, 12);
 
 INSERT INTO Record VALUES(1, "Patient suffers from Headache", 100000001,  '2020-04-24 10:00:00', 888888888);
+
+SELECT E_Name
+FROM Employee, Departmnt, Doctor
+WHERE Departmnt.Dep_Name = "Surgery" AND Departmnt.Dep_ID = Doctor.Dep_ID AND Doctor.EID = Employee.SSN
+
+SELECT Name, Address 
+FROM Patient
+WHERE RID IN
+	(SELECT RID 
+	FROM Room 
+	WHERE Block_Floor = 4)
+	
+SELECT Name, Address, Phone, Insuranceid
+FROM Patient
+WHERE SSN IN
+	(SELECT PID 
+	FROM Takes 
+	WHERE Code IN 
+	(SELECT Code 
+	FROM Medicine 
+	WHERE Name = "Thesisin")
+	)
+	
+SELECT MAX(Price), AVG(Price), sum(Price)
+FROM Medicine
+
+SELECT *
+FROM Employee, Doctor, Departmnt
+WHERE Departmnt.Dep_ID = Doctor.Dep_ID And Doctor.EID = Employee.SSN
+GROUP BY Doctor.Dep_ID
+
+
